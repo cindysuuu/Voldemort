@@ -74,6 +74,9 @@
                   var common = find_tags(data, dataFromQuotes);
                   document.getElementById('result').innerHTML += "Common tags: " + common + "<br />";
 
+                  find_quotes(common);
+                  
+
                 });
 
               },
@@ -99,15 +102,28 @@
 
         //on progress
         function find_quotes(common){
-          var dictionary = {};
-          for(var i = 0; i < common.length; i++){
+          var dictionary = [];
+          var i = 0;
+          document.getElementById('result').innerHTML += "Quotes: <br />";
+          while(dictionary.length < 10 && i < common.length){
             database.ref('content/' + common[i]).once('value').then(function(snapshot) {
               var dataFromContent = snapshot.val();
 
-              document.getElementById('result').innerHTML += "Common tags: " + common + "<br />";
+              for(var j = 0; j < dataFromContent.length; j++){
+                var quotes = dataFromContent[j].quote + " (" + dataFromContent[j].author + ")";
+                if(dictionary.indexOf(quotes) < 0 && dictionary.length < 10){
+                  dictionary.push(quotes);
+                  document.getElementById('result').innerHTML +=  "\"" + quotes + "\"" + "<br />";
+                  }
+                }
 
             });
+
+            i++;
+
           }
+
+          dictionary;
 
         }
 
