@@ -13,7 +13,9 @@
     <script type="text/javascript" src="keys.js"></script>
   </head>
   <body>
-    <form id="url-form">
+    <h1>JUDUL</h1>
+    <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</h2>
+    <form id="url-form" style="margin-left: 7%">
       <div class="form-group row" id="url-box">
         <div class="form-group col-md-2" style="text-align:center;">
           <input type="submit" class="btn btn-lg orderButton" value="Submit" id="submit-url">
@@ -23,8 +25,14 @@
         </div>
       </div>
     </form>
+    <div id="display">
+      <!-- placeholder for image -->
+    </div>
 
+    <div id="title">
+      </div>
     <div id="result">
+
     </div>
     <script type="text/javascript" src="https://sdk.clarifai.com/js/clarifai-2.0.9.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script>
@@ -52,6 +60,8 @@
         $('#url-form').submit(function(e){
           e.preventDefault();
           var input = $('#url-input').val().trim();
+          document.getElementById('display').innerHTML = "<img src=\"" + input + "\">";
+
           var dataFromClarifai = predict(input);
           //document.getElementById('result').innerHTML += data + "<br />";
           
@@ -72,7 +82,7 @@
                   dataFromQuotes = snapshot.val();
 
                   var common = find_tags(data, dataFromQuotes);
-                  document.getElementById('result').innerHTML += "Common tags: " + common + "<br />";
+                  // document.getElementById('result').innerHTML += "Common tags: " + common + "<br />";
 
                   find_quotes(common);
                   
@@ -104,16 +114,21 @@
         function find_quotes(common){
           var dictionary = [];
           var i = 0;
-          document.getElementById('result').innerHTML += "Quotes: <br />";
+          document.getElementById('title').innerHTML = "Quotes: <br />";
+          document.getElementById('result').innerHTML = "";
           while(dictionary.length < 10 && i < common.length){
             database.ref('content/' + common[i]).once('value').then(function(snapshot) {
               var dataFromContent = snapshot.val();
 
               for(var j = 0; j < dataFromContent.length; j++){
-                var quotes = dataFromContent[j].quote + " (" + dataFromContent[j].author + ")";
+                var quotes = dataFromContent[j].quote;
                 if(dictionary.indexOf(quotes) < 0 && dictionary.length < 10){
                   dictionary.push(quotes);
-                  document.getElementById('result').innerHTML +=  "\"" + quotes + "\"" + "<br />";
+                  var list = dataFromContent[j].tags[0];
+                  for(var k = 1; k < dataFromContent[j].tags.length; k++){
+                    list += ", " + dataFromContent[j].tags[k];
+                  }
+                  document.getElementById('result').innerHTML +=  "<div class=\"quote\"><p>" + quotes + "</p><div class=\"col-md-6 tags\">" + list + "<br /></div><div class=\"col-md-6 author\">" + dataFromContent[j].author + "</div></div>";
                   }
                 }
 

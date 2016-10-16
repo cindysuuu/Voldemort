@@ -1,15 +1,75 @@
 body {
   margin: 15%;
+  margin-top: 20px;
 }
 
 a {
   color: rgb(3,155,229);
 }
 
+h1 {
+	font-size: 4.5em;
+	text-align: center;
+	margin-bottom: 10px;
+	color: #00004c;
+}
+
+h2 {
+	font-size: 1.5em;
+    font-weight: normal;
+    text-align: center;
+	margin-bottom: 30px;
+	color: #0e59a2;
+}
+
 .form-group {
   margin-bottom: 1rem;
 }
 
+.author {
+	text-align: right;
+	font-style: italic;
+}
+
+#submit-url {
+	background-color: #559FF3;
+	color: white;
+}
+
 .form-control {
   font-size: 1.5em;
+}
+
+#display img {
+    width: 60%;
+    margin: 0 18%;
+}
+
+.tags {
+	color: #31708f;
+}
+
+#title {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	font-size: 2em;
+	font-weight: bold;
+	color: #1c44a7;
+}
+
+.quote {
+	margin-top: 15px;
+    padding: 15px;
+    border: 1px solid;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.quote:nth-child(odd){
+	background-color: #F0F8FF;
+	border: none;
+}
+
+.quote:nth-child(even){
+	color: #205dad;
 }
