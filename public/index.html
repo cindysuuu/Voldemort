@@ -70,6 +70,11 @@
         }
       });
       
+      var database = firebase.database();
+      //var database = new Firebase('https://voldemort-a50cc.firebaseio.com')
+      database.ref('list_tags').once('value').then(function(snapshot) {
+        console.log(snapshot.val());
+      });
     </script>
   </body>
 </html>
