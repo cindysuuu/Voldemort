@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Voldemort</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <form>
+      <div class="form-group row">
+        <label for="example-url-input" class="col-md-2 col-form-label">URL</label>
+          <div class="col-md-8">
+            <input class="form-control" type="url" value="http://getbootstrap.com" id="example-url-input">
+          </div>
+      </div>
+    </form>
+
+    <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDJFUYUyHFy1qxA8R1aXyDfrZpm81M9npU",
+        authDomain: "voldemort-a50cc.firebaseapp.com",
+        databaseURL: "https://voldemort-a50cc.firebaseio.com",
+        storageBucket: "voldemort-a50cc.appspot.com",
+        messagingSenderId: "683264451843"
+      };
+      firebase.initializeApp(config);
+    </script>
+  </body>
+</html>

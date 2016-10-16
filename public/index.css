@@ -1,0 +1,17 @@
+body {
+  margin: 15%;
+}
+
+a {
+  color: rgb(3,155,229);
+}
+
+.form-group {
+    margin-left: 4em;
+    margin-top: 7em;
+    text-align: right;
+}
+
+.form-control, .col-form-label {
+  font-size: 1.5em;
+}
