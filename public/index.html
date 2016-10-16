@@ -41,6 +41,9 @@
       };
       firebase.initializeApp(config);
 
+      var database = firebase.database();
+      //var database = new Firebase('https://voldemort-a50cc.firebaseio.com')
+
       $(document).ready(function (){
         var app = new Clarifai.App(
           CLIENT_ID,
@@ -49,32 +52,52 @@
         $('#url-form').submit(function(e){
           e.preventDefault();
           var input = $('#url-input').val().trim();
-          predict(input);
+          var dataFromClarifai = predict(input);
           //document.getElementById('result').innerHTML += data + "<br />";
+          
         } );
 
         function predict(url) {
+            var data = [];
             app.models.predict(Clarifai.GENERAL_MODEL, url).then(
               function(response) {
                 //console.log(response);
-                var data = [];
                 for (var x in response.data.outputs[0].data.concepts) {
                   data.push(response.data.outputs[0].data.concepts[x].name);
                 }
-                document.getElementById('result').innerHTML += data + "<br />";
+                //document.getElementById('result').innerHTML += data + "<br />";
+
+                var dataFromQuotes = [];
+                database.ref('list_tags').once('value').then(function(snapshot) {
+                  dataFromQuotes = snapshot.val();
+
+                  var common = find_tags(data, dataFromQuotes);
+                  document.getElementById('result').innerHTML += "Common tags: " + common + "<br />";
+                });
+
               },
               function(err) {
                 console.error(err);
               }
             );
+            return data;
         }
+
+        function find_tags(dataC, dataQ){
+          var common = [];
+          for(var i = 0; i < dataC.length; i++){
+            for(var j = 0; j < dataQ.length; j++){
+              if (dataC[i] == dataQ[j]){
+                common.push(dataC[i]);
+                break;
+              }
+            }
+          }
+          return common;
+        }
+
       });
       
-      var database = firebase.database();
-      //var database = new Firebase('https://voldemort-a50cc.firebaseio.com')
-      database.ref('list_tags').once('value').then(function(snapshot) {
-        console.log(snapshot.val());
-      });
     </script>
   </body>
 </html>
