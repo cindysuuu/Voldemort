@@ -1,23 +1,27 @@
-with open('quote.txt', 'r') as f:
+import json
+from textblob import TextBlob
+
+with open('quote-revised.txt', 'r') as f:
 	content = f.readlines()
 f.close()
 
-cpy = []
-dups = []
-cnt = 0
-with open('quote-revised.txt', 'w') as f:
-	for c in content:
-		if c.strip() == "":
-			continue
-		tokens = c.split('\t')
-		txt = tokens[0].strip()
-		if txt in cpy and txt not in dups:
-			dups.append(txt)
-			cnt += 1
-		else:
-			cpy.append(txt)
-			f.write(tokens[0].strip() + '\t' + tokens[1].strip() + '\t' + tokens[2].strip() + '\t' + tokens[3].strip() + '\n')
-f.close()
+data = {'content':[]}
 
-print len(dups)
-print cnt
+for c in content:
+	if c.strip() == "":
+		continue
+	tokens = c.split('\t')
+
+	quote = tokens[0].strip()
+	author = tokens[1].strip()
+	topic = tokens[2].strip()
+	tags = tokens[3].strip().split(',')
+	sent = TextBlob(unicode(quote, encoding='utf-8', errors='replace')).sentiment.polarity
+
+	dct = {'quote': quote, 'author': author, 'topic': topic, 'tags': tags, 'sentiment': sent}
+	
+	data['content'].append(dct)
+
+with open('quote.json', 'w') as f:
+	f.write(json.dumps(data, ensure_ascii=False))
+f.close()
