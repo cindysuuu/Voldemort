@@ -39,7 +39,22 @@
       $(document).ready(function (){
         $('#url-form').submit(function(e){
           e.preventDefault();
-          var data = $('#url-input').val().trim();
+          var input = $('#url-input').val().trim();
+          $.ajax({
+            url: '/backend.py',
+            type: 'POST',
+            data: input,
+            success: function(msg) {
+            if(msg == 'success'){
+              alert('Success' + msg);
+              $('#url-input').reset();
+            } else {
+              alert('Error ' + msg);
+            }
+          }
+          }).fail(function() {
+            alert('Fail');
+          });
           alert(data);
           document.getElementById('result').innerHTML += data + "<br />";
         } );
