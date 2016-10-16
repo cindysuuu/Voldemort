@@ -73,6 +73,7 @@
 
                   var common = find_tags(data, dataFromQuotes);
                   document.getElementById('result').innerHTML += "Common tags: " + common + "<br />";
+
                 });
 
               },
@@ -94,6 +95,20 @@
             }
           }
           return common;
+        }
+
+        //on progress
+        function find_quotes(common){
+          var dictionary = {};
+          for(var i = 0; i < common.length; i++){
+            database.ref('content/' + common[i]).once('value').then(function(snapshot) {
+              var dataFromContent = snapshot.val();
+
+              document.getElementById('result').innerHTML += "Common tags: " + common + "<br />";
+
+            });
+          }
+
         }
 
       });
