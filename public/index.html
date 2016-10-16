@@ -9,19 +9,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+    
     <script type="text/javascript" src="keys.js"></script>
   </head>
   <body>
-    <h1>JUDUL</h1>
-    <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</h2>
+    <h1>Quotologist</h1>
+    <h2>"..." -Anonymous</h2>
     <form id="url-form" style="margin-left: 7%">
       <div class="form-group row" id="url-box">
         <div class="form-group col-md-2" style="text-align:center;">
           <input type="submit" class="btn btn-lg orderButton" value="Submit" id="submit-url">
         </div>
         <div class="form-group col-md-8">
-          <input class="form-control" type="url" value="http://getbootstrap.com" id="url-input">
+          <input class="form-control" type="url" placeholder="http://getbootstrap.com" id="url-input">
+          <input class="form-control" type="file" placeholder="Upload your own image" id="img-input" style="font-size:1em;"/>
         </div>
       </div>
     </form>
@@ -31,13 +32,15 @@
 
     <div id="title">
       </div>
+
+    <img id="display" src=""/>
+
     <div id="result">
 
     </div>
     <script type="text/javascript" src="https://sdk.clarifai.com/js/clarifai-2.0.9.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script>
     <script>
-
 
       // Initialize Firebase
       var config = {
@@ -50,7 +53,14 @@
       firebase.initializeApp(config);
 
       var database = firebase.database();
+      var storageRef = firebase.storage().ref("tempImages/file.jpg");
       //var database = new Firebase('https://voldemort-a50cc.firebaseio.com')
+
+      var input;
+      $('#img-input').change(function(e) {
+          var firstFile = e.target.files[0]; // get the first file uploaded
+          var uploadTask = storageRef.put(firstFile);
+      });
 
       $(document).ready(function (){
         var app = new Clarifai.App(
@@ -60,11 +70,17 @@
         $('#url-form').submit(function(e){
           e.preventDefault();
           var input = $('#url-input').val().trim();
-          document.getElementById('display').innerHTML = "<img src=\"" + input + "\">";
-
-          var dataFromClarifai = predict(input);
-          //document.getElementById('result').innerHTML += data + "<br />";
           
+          if (input == "") {
+            firebase.storage().ref().child("tempImages/file.jpg").getDownloadURL().then(function(url) {
+              input = url;
+              document.getElementById('display').innerHTML = "<img src=\"" + input + "\">";
+              var dataFromClarifai = predict(input);
+            });
+          } else {
+            document.getElementById('display').innerHTML = "<img src=\"" + input + "\">";
+            var dataFromClarifai = predict(input);
+          }
         } );
 
         function predict(url) {
@@ -141,6 +157,8 @@
           dictionary;
 
         }
+
+
 
       });
       
