@@ -7,11 +7,9 @@ a {
 }
 
 .form-group {
-    margin-left: 4em;
-    margin-top: 7em;
-    text-align: right;
+  margin-bottom: 1rem;
 }
 
-.form-control, .col-form-label {
+.form-control {
   font-size: 1.5em;
 }

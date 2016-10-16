@@ -10,14 +10,19 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
   </head>
   <body>
-    <form>
-      <div class="form-group row">
-        <label for="example-url-input" class="col-md-2 col-form-label">URL</label>
-          <div class="col-md-8">
-            <input class="form-control" type="url" value="http://getbootstrap.com" id="example-url-input">
-          </div>
+    <form id="url-form">
+      <div class="form-group row" id="url-box">
+        <div class="form-group col-md-2" style="text-align:center;">
+          <input type="submit" class="btn btn-lg orderButton" value="Submit" id="submit-url">
+        </div>
+        <div class="form-group col-md-8">
+          <input class="form-control" type="url" value="http://getbootstrap.com" id="url-input">
+        </div>
       </div>
     </form>
+
+    <div id="result">
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script>
     <script>
@@ -30,6 +35,15 @@
         messagingSenderId: "683264451843"
       };
       firebase.initializeApp(config);
+
+      $(document).ready(function (){
+        $('#url-form').submit(function(e){
+          e.preventDefault();
+          var data = $('#url-input').val().trim();
+          alert(data);
+          document.getElementById('result').innerHTML += data + "<br />";
+        } );
+      });
     </script>
   </body>
 </html>
