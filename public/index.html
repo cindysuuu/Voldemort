@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Voldemort</title>
+    <title>Quotologist</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
@@ -13,7 +13,7 @@
     <script type="text/javascript" src="keys.js"></script>
   </head>
   <body>
-    <h1>Quotologist</h1>
+    <h1>#Quotologist</h1>
     <h2>A simple quote recommendation webapp that suggests related motivational quotes in accordance to a picture you upload</h2>
     <form id="url-form" style="margin-left: 7%">
       <div class="form-group row" id="url-box">
@@ -135,9 +135,11 @@
           while(dictionary.length < 10 && i < common.length){
             database.ref('content/' + common[i]).once('value').then(function(snapshot) {
               var dataFromContent = snapshot.val();
-
+              shuffle(dataFromContent);
               for(var j = 0; j < dataFromContent.length; j++){
+                
                 var quotes = dataFromContent[j].quote;
+
                 if(dictionary.indexOf(quotes) < 0 && dictionary.length < 10){
                   dictionary.push(quotes);
                   var list = dataFromContent[j].tags[0];
@@ -156,6 +158,16 @@
 
           dictionary;
 
+        }
+
+        function shuffle(a) {
+          var j, x, i;
+          for (i = a.length; i; i--) {
+            j = Math.floor(Math.random() * i);
+            x = a[i - 1];
+            a[i - 1] = a[j];
+            a[j] = x;
+          }
         }
 
 
