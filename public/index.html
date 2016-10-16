@@ -11,7 +11,6 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script type="text/javascript" src="keys.js"></script>
-    <script type="text/javascript" src="clarifai.js"></script>
   </head>
   <body>
     <form id="url-form">
@@ -43,31 +42,34 @@
       firebase.initializeApp(config);
 
       $(document).ready(function (){
+        var app = new Clarifai.App(
+          CLIENT_ID,
+          CLIENT_SECRET
+          );
         $('#url-form').submit(function(e){
           e.preventDefault();
-          var data = $('#url-input').val().trim();
-          //var res = run(data);
-          document.getElementById('result').innerHTML += data + "<br />";
+          var input = $('#url-input').val().trim();
+          predict(input);
+          //document.getElementById('result').innerHTML += data + "<br />";
         } );
+
+        function predict(url) {
+            app.models.predict(Clarifai.GENERAL_MODEL, url).then(
+              function(response) {
+                //console.log(response);
+                var data = [];
+                for (var x in response.data.outputs[0].data.concepts) {
+                  data.push(response.data.outputs[0].data.concepts[x].name);
+                }
+                document.getElementById('result').innerHTML += data + "<br />";
+              },
+              function(err) {
+                console.error(err);
+              }
+            );
+        }
       });
       
-      var app = new Clarifai.App(
-        CLIENT_ID,
-        CLIENT_SECRET
-        );
-      app.models.predict(Clarifai.GENERAL_MODEL, 'https://samples.clarifai.com/metro-north.jpg').then(
-        function(response) {
-          console.log(response.data.outputs[0].data.concepts[0]);
-          //console.log(response);
-          for (var x in response.data.outputs[0].data.concepts) {
-            console.log(response.data.outputs[0].data.concepts[x].name);
-          }
-        },
-        function(err) {
-          console.error(err);
-        }
-      );
-
     </script>
   </body>
 </html>
